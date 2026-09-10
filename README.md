@@ -6,7 +6,7 @@ Derwent Patent API provides seamless access to enriched patent data, enabling us
 
 - [Overview](#overview)
 - [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
+  - [Register](#register)
   - [Installation](#installation)
   - [Quick Start](#quick-start)
 - [Authentication](#authentication)
@@ -41,9 +41,28 @@ _TODO: Add content_
 ---
 [⬆ Back to Top](#table-of-contents)
 
-## Getting Started
+## Register
 
-_TODO: Add content_
+### Register Developer Portal
+
+1. Go to [Clarivate Developer Portal](https://developer.clarivate.com/) and select **Sign up** to open a new page page
+2. Click **Register** to open the register page, following the instruction to input your ***email address***, ***password*** and other information, then click **Register**
+3. You will receiven an email, follow the instruction to confirm the registration
+
+### Register Application
+
+1. Go to [Clarivate Developer Portal](https://developer.clarivate.com/) and select **Log in** to open a new page
+2. Input your email address and password, and click **Sign in** to your personal home page
+3. Click **Applications** in the menu to open the appication page
+4. Click **Register a new Application** to show the panel, input the required fields (You can input a few words and update it later), click **Register Application**
+
+### Subscribe Patent API
+
+1. If you haven't subscribed any API, in your **Application** page, you can click **View APIs >>**. Alternatively, you can click **APIs** menu to naviage to APIs page
+2. In the APIs page, find and click **Intellectual Property (IP) Data API** You can find it by searching the name in browser or use filter **Derwent** to narrow down the APIs list
+3. In the **Intellectual Property (IP) Data API** page,scroll to the bottom, click **Subscribe** to raise the request
+4. Please inform your account manager your email address, our approver will check your subscription request and approve
+
 
 ### Prerequisites
 
