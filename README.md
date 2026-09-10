@@ -8,8 +8,9 @@ Derwent Patent API provides seamless access to enriched patent data, enabling us
 - [Base URL](#base-url)
 - [Authentication](#authentication)
 - [Error Handling](#error-handling)
-- [Rate Limits](#rate-limits)
 - [Endpoints](#endpoints)
+  - [Overview](#overview)
+  - [Fields and Collections](#fields-and-collections)
   - Search endpoints
     - [POST /patents/derwent/search-by-query](#post-patentsderwentsearch-by-query)
     - [POST /patents/derwent/search-by-ids](#post-patentsderwentsearch-by-ids)
@@ -19,10 +20,14 @@ Derwent Patent API provides seamless access to enriched patent data, enabling us
     - [POST /patents/derwent/documents-by-id](#post-patentsderwentdocuments-by-id)
     - [POST /patents/derwent/documents-by-pn](#post-patentsderwentdocuments-by-pn)
     - [POST /patents/derwent/documents-by-listref](#post-patentsderwentdocuments-by-listref)
-  - Classification and Corporate tree endpoints
+    - [POST /patents/derwent/document/pdf](#post-patentsderwentdocumentpdf)
+    - [GET /patents/derwent/document/pdf/\{document_guid\}](#get-patentsderwentdocumentpdfdocument_guid)
+    - [GET /patents/derwent/document/images/\{document_guid\}](#get-patentsderwentdocumentimagesdocument_guid)
+  - Utility endpoints
     - [POST /patents/derwent/class-browse](#post-patentsderwentclass-browse)
     - [POST /patents/derwent/class-search](#post-patentsderwentclass-search)
     - [POST /patents/derwent/corporate-tree](#post-patentsderwentcorporate-tree)
+    - [POST /patents/derwent/documents-IdMapping](#post-patentsderwentdocuments-idmapping)
 - [Support](#support)
 - [Terms of service](#terms-of-service)
 
@@ -103,15 +108,52 @@ Common status codes
 
 ---
 
-## Rate Limits
+## Endpoints
 
-_TODO: Add content_
+This section describe the common concept for Patent APIs
+
+### Overview
+
+Patent API has three types of endpoints
+
+| Type | Description |
+|------|-------------|
+| **Search** | **Return one or more patents by different query, the reponse fields are limited** |
+|            | POST /patents/derwent/search-by-query |
+|            | POST /patents/derwent/search-by-ids |
+|            | POST /patents/derwent/search-by-pns |
+|            | POST /patents/derwent/combined-search |
+| **Document** | **Return one or more specified patent documents, the response fields are more comprehensive than *Search* endpoints** |
+|            | POST /patents/derwent/documents-by-id |
+|            | POST /patents/derwent/documents-by-pn |
+|            | POST /patents/derwent/documents-by-listref |
+|            | POST /patents/derwent/document/pdf |
+|            | GET /patents/derwent/document/pdf/\{document_guid\} |
+|            | GET /patents/derwent/document/images/\{document_guid\} |
+| **Utility** | **Utitliies that can search classification, corporation tree, Id mapping** |
+|            | POST /patents/derwent/class-search |
+|            | POST /patents/derwent/class-browse |
+|            | POST /patents/derwent/corporate-tree |
+|            | POST /patents/derwent/documents-IdMapping |
+
+### Fields and Collections
+
+The API fields and collections are described in [Field List (Excel)](docs/New_Derwent_API_Field_List.xlsx)
+
+#### Fields
+All the fields are listed in the **FIELDS** tab, they have a few categories:
+- Search Request: The fields that can be requested (as parameters) in **Search** endpoints
+- Search Response: The fields that can be returend in **Search** endpoints
+- Document Response: The fields that can be returned in **Document** endpoints
+
+#### Collections
+All the collections are listed in the **COLLECTIONS** tab.<br>
+Each collection is for one specific authority and one specific patent type (application, grant, utility model)<br>
+_TODO_ Refer to [Coverage and Collections (PDF)](#xxx) to understand the start date and patent type for each authority<br>
 
 [⬆ Back to Top](#table-of-contents)
 
 ---
-
-## Endpoints
 
 ### POST /patents/derwent/search-by-query
 
@@ -668,6 +710,24 @@ curl -sS \
 
 ---
 
+### POST /patents/derwent/document/pdf
+
+[⬆ Back to Top](#table-of-contents)
+
+---
+
+### GET /patents/derwent/document/pdf/\{document_guid\}
+
+[⬆ Back to Top](#table-of-contents)
+
+---
+
+### GET /patents/derwent/document/images/{document_guid}
+
+[⬆ Back to Top](#table-of-contents)
+
+---
+
 ### POST /patents/derwent/class-browse
 
 Browsing through classification databases across various levels and hierarchies to ensure comprehensive technical coverage.
@@ -914,15 +974,21 @@ curl -sS \
 
 ---
 
+### POST /patents/derwent/documents-IdMapping
+
+[⬆ Back to Top](#table-of-contents)
+
+---
+
 ## Support
 
-Send [email](#mailto:Derwent.support@clarivate.com) to us if you have any questions.
+Send [Email](mailto:Derwent.support@clarivate.com) to us if you have any feedback.
 
 ---
 
 ## Terms of service
 
-[Terms of service](#https://clarivate.com/legal-center/terms-of-business/product-service-terms/)
+[Terms of service](https://clarivate.com/legal-center/terms-of-business/product-service-terms/)
 
 <p align="center"><a href="#table-of-contents">⬆ Back to Top</a></p>
 
