@@ -10,20 +10,21 @@ Derwent Patent API provides seamless access to enriched patent data, enabling us
 - [Error Handling](#error-handling)
 - [Rate Limits](#rate-limits)
 - [Endpoints](#endpoints)
-  - [POST /patents/derwent/search-by-query](#post-patentsderwentsearch-by-query)
-  - [POST /patents/derwent/search-by-ids](#post-patentsderwentsearch-by-ids)
-  - [POST /patents/derwent/search-by-pns](#post-patentsderwentsearch-by-pns)
-  - [POST /patents/derwent/documents-by-id](#post-patentsderwentdocuments-by-id)
-  - [POST /patents/derwent/documents-by-pn](#post-patentsderwentdocuments-by-pn)
-  - [POST /patents/derwent/documents-by-listref](#post-patentsderwentdocuments-by-listref)
-  - [POST /patents/derwent/combined-search](#post-patentsderwentcombined-search)
-  - [POST /patents/derwent/class-browse](#post-patentsderwentclass-browse)
-  - [POST /patents/derwent/class-search](#post-patentsderwentclass-search)
-  - [POST /patents/derwent/corporate-tree](#post-patentsderwentcorporate-tree)
-- [Pagination](#pagination)
-- [Changelog](#changelog)
+  - Search endpoints
+    - [POST /patents/derwent/search-by-query](#post-patentsderwentsearch-by-query)
+    - [POST /patents/derwent/search-by-ids](#post-patentsderwentsearch-by-ids)
+    - [POST /patents/derwent/search-by-pns](#post-patentsderwentsearch-by-pns)
+    - [POST /patents/derwent/combined-search](#post-patentsderwentcombined-search)
+  - Document endpoints
+    - [POST /patents/derwent/documents-by-id](#post-patentsderwentdocuments-by-id)
+    - [POST /patents/derwent/documents-by-pn](#post-patentsderwentdocuments-by-pn)
+    - [POST /patents/derwent/documents-by-listref](#post-patentsderwentdocuments-by-listref)
+  - Classification and Corporate tree endpoints
+    - [POST /patents/derwent/class-browse](#post-patentsderwentclass-browse)
+    - [POST /patents/derwent/class-search](#post-patentsderwentclass-search)
+    - [POST /patents/derwent/corporate-tree](#post-patentsderwentcorporate-tree)
 - [Support](#support)
-- [License](#license)
+- [Terms of service](#terms-of-service)
 
 ---
 
@@ -114,11 +115,11 @@ _TODO: Add content_
 
 ### POST /patents/derwent/search-by-query
 
-Perform a search using query
+AI (semantic) search and boolean search by fields. Results include a listref reference that can be used for subsequent document retrieval.
 
 **Request parameters:**
 
-- query: string. Free-text search query
+- query: string. Use search_field=search_value
 
 - listref: string. String obtained from search response. Either query or listref can be used in this endpoint
 
@@ -130,15 +131,19 @@ Perform a search using query
 
 ```bash
 curl -sS \
-  -X POST "httpS://api.clarivate.com/patents/derwent/search-by-query" \
-  -H "Content-Type: application/json" \
-  -H "X-ApiKey: $(x-apikey)" \
+  -X 'POST' \
+  'https://api.clarivate.com/patents/derwent/search-by-query' \
+  -H 'accept: application/json' \
+  -H 'X-ApiKey: 5153bee8c2be6753176a1a190802beef7c377027' \
+  -H 'Content-Type: application/json' \
   -d '{
-    "params": [
+  "params": [
       {
-        "query": "ti=science",
-        "collections": "usapps,usgrants",
-        "return-fields": "pn,pd"
+        "collections": "usapps,usgrants,epapps,epgrants,woapps",
+        "offset": 0,
+        "query": "pd>=(20180101) and ti=car",
+        "return-fields": "ti,pd,pn",
+        "size": 3
       }
     ]
   }'
@@ -149,169 +154,75 @@ curl -sS \
 ```json
 {
   "header": {
-    "duration": "281",
-    "searched": 177324912,
-    "found": "3536",
-    "size": 3536
+    "duration": "395",
+    "searched": 184834460,
+    "found": "113342",
+    "size": 30000
   },
   "body": [
     {
-      "id": "US12424223B220250923",
-      "rank": 2,
+      "id": "USD1147626S120260908",
+      "rank": "2.0",
       "field": [
         {
-          "name": "pn",
+          "name": "ti",
           "form": "orig",
-          "value": "US12424223B2"
+          "lang": "en",
+          "value": "Car vacuum cleaner"
         },
         {
           "name": "pd",
           "form": "orig",
-          "value": "2025-09-23"
+          "value": "2026-09-08"
+        },
+        {
+          "name": "pn",
+          "form": "orig",
+          "value": "USD1147626S1"
         }
       ]
     },
     {
-      "id": "US12423568B220250923",
-      "rank": 2,
+      "id": "USD1147476S120260908",
+      "rank": "2.0",
       "field": [
         {
-          "name": "pn",
+          "name": "ti",
           "form": "orig",
-          "value": "US12423568B2"
+          "lang": "en",
+          "value": "Car light"
         },
         {
           "name": "pd",
           "form": "orig",
-          "value": "2025-09-23"
+          "value": "2026-09-08"
+        },
+        {
+          "name": "pn",
+          "form": "orig",
+          "value": "USD1147476S1"
         }
       ]
     },
     {
-      "id": "US12417017B220250916",
-      "rank": 2,
+      "id": "USD1147196S120260908",
+      "rank": "2.0",
       "field": [
         {
-          "name": "pn",
+          "name": "ti",
           "form": "orig",
-          "value": "US12417017B2"
+          "lang": "en",
+          "value": "Tire for toy model climbing car"
         },
         {
           "name": "pd",
           "form": "orig",
-          "value": "2025-09-16"
-        }
-      ]
-    },
-    {
-      "id": "US12416797B220250916",
-      "rank": 2,
-      "field": [
+          "value": "2026-09-08"
+        },
         {
           "name": "pn",
           "form": "orig",
-          "value": "US12416797B2"
-        },
-        {
-          "name": "pd",
-          "form": "orig",
-          "value": "2025-09-16"
-        }
-      ]
-    },
-    {
-      "id": "US12412036B220250909",
-      "rank": 2,
-      "field": [
-        {
-          "name": "pn",
-          "form": "orig",
-          "value": "US12412036B2"
-        },
-        {
-          "name": "pd",
-          "form": "orig",
-          "value": "2025-09-09"
-        }
-      ]
-    },
-    {
-      "id": "US12411468B220250909",
-      "rank": 2,
-      "field": [
-        {
-          "name": "pn",
-          "form": "orig",
-          "value": "US12411468B2"
-        },
-        {
-          "name": "pd",
-          "form": "orig",
-          "value": "2025-09-09"
-        }
-      ]
-    },
-    {
-      "id": "US12411466B220250909",
-      "rank": 2,
-      "field": [
-        {
-          "name": "pn",
-          "form": "orig",
-          "value": "US12411466B2"
-        },
-        {
-          "name": "pd",
-          "form": "orig",
-          "value": "2025-09-09"
-        }
-      ]
-    },
-    {
-      "id": "US12406653B220250902",
-      "rank": 2,
-      "field": [
-        {
-          "name": "pn",
-          "form": "orig",
-          "value": "US12406653B2"
-        },
-        {
-          "name": "pd",
-          "form": "orig",
-          "value": "2025-09-02"
-        }
-      ]
-    },
-    {
-      "id": "US12405779B220250902",
-      "rank": 1,
-      "field": [
-        {
-          "name": "pn",
-          "form": "orig",
-          "value": "US12405779B2"
-        },
-        {
-          "name": "pd",
-          "form": "orig",
-          "value": "2025-09-02"
-        }
-      ]
-    },
-    {
-      "id": "US12393709B220250819",
-      "rank": 2,
-      "field": [
-        {
-          "name": "pn",
-          "form": "orig",
-          "value": "US12393709B2"
-        },
-        {
-          "name": "pd",
-          "form": "orig",
-          "value": "2025-08-19"
+          "value": "USD1147196S1"
         }
       ]
     }
@@ -325,7 +236,7 @@ curl -sS \
 
 ### POST /patents/derwent/search-by-ids
 
-Perform a search using document id(s)
+Search and retrieval using document IDs (GUIDs).
 
 **Request parameters:**
 
@@ -337,7 +248,7 @@ Perform a search using document id(s)
 
 ```bash
 curl -sS \
-  -X POST "httpS://api.clarivate.com/patents/derwent/search-by-ids" \
+  -X POST "https://api.clarivate.com/patents/derwent/search-by-ids" \
   -H "Content-Type: application/json" \
   -H "X-ApiKey: $(x-apikey)" \
   -d '{
@@ -377,7 +288,7 @@ curl -sS \
 ---
 ### POST /patents/derwent/search-by-pns
 
-Perform a search using publication number(s)
+Search with one or more publication numbers directly.
 
 **Request parameters:**
 
@@ -389,7 +300,7 @@ Perform a search using publication number(s)
 
 ```bash
 curl -sS \
-  -X POST "httpS://api.clarivate.com/patents/derwent/search-by-pns" \
+  -X POST "https://api.clarivate.com/patents/derwent/search-by-pns" \
   -H "Content-Type: application/json" \
   -H "X-ApiKey: $(x-apikey)" \
   -d '{
@@ -433,9 +344,100 @@ curl -sS \
 
 ---
 
+### POST /patents/derwent/combined-search
+
+Combine and run multiple queries in a single call using Boolean logic. Particularly useful for complex, multi-concept search strategies.
+
+**Request parameters:**
+
+- query\{query_number\}: string. Free-text search query, with search_field=search_value
+
+- collections\{number\}: string. Collection or comma separated string of multiple collections
+
+- combination: string. Containing combination condition of queries. Example: "combination": "\$1 and \$2”
+
+**Sample request:**
+
+```bash
+curl -sS \
+  -X POST "https://api.clarivate.com/patents/derwent/combined-search" \
+  -H "Content-Type: application/json" \
+  -H "X-ApiKey: $(x-apikey)" \
+  -d '{
+    "params": [
+      {
+        "query1": "pac=IN",
+        "collections1": "usapps",
+        "query2": "pa=*Atl*",
+        "collections2": "usapps",
+        "query3": "pa=*US",
+        "collections3": "usapps",
+        "combination": "($1 AND $2 OR S3)"
+      }
+    ]
+  }'
+```
+
+**Sample response:**
+
+```json
+[
+  {
+    "duration": "5885",
+    "searched": 177324912,
+    "found": "28801,4683,216194,6578197",
+    "size": 30000
+  },
+  {
+    "id": "USRE50600E120250923",
+    "rank": 7
+  },
+  {
+    "id": "US12426505B220250923",
+    "rank": 4
+  },
+  {
+    "id": "US12426464B220250923",
+    "rank": 5
+  },
+  {
+    "id": "US12426451B220250923",
+    "rank": 4
+  },
+  {
+    "id": "US12426448B220250923",
+    "rank": 4
+  },
+  {
+    "id": "US12426437B220250923",
+    "rank": 2
+  },
+  {
+    "id": "US12426431B120250923",
+    "rank": 4
+  },
+  {
+    "id": "US12426407B220250923",
+    "rank": 10
+  },
+  {
+    "id": "US12426400B220250923",
+    "rank": 3
+  },
+  {
+    "id": "US12426375B220250923",
+    "rank": 5
+  }
+]
+```
+
+[⬆ Back to Top](#table-of-contents)
+
+---
+
 ### POST /patents/derwent/documents-by-id
 
-Retrieve a document using document id(s)
+Retrieve document content using document IDs (GUIDs).
 
 **Request parameters:**
 
@@ -447,7 +449,7 @@ Retrieve a document using document id(s)
 
 ```bash
 curl -sS \
-  -X POST "httpS://api.clarivate.com/patents/derwent/documents-by-id" \
+  -X POST "https://api.clarivate.com/patents/derwent/documents-by-id" \
   -H "Content-Type: application/json" \
   -H "X-ApiKey: $(x-apikey)" \
   -d '{
@@ -507,7 +509,7 @@ curl -sS \
 
 ### POST /patents/derwent/documents-by-pn
 
-Retrieve a document using publication number(s)
+Retrieve document content using publication numbers directly.
 
 **Request parameters:**
 
@@ -519,7 +521,7 @@ Retrieve a document using publication number(s)
 
 ```bash
 curl -sS \
-  -X POST "httpS://api.clarivate.com/patents/derwent/documents-by-pn" \
+  -X POST "https://api.clarivate.com/patents/derwent/documents-by-pn" \
   -H "Content-Type: application/json" \
   -H "X-ApiKey: $(x-apikey)" \
   -d '{
@@ -576,7 +578,7 @@ curl -sS \
 
 ### POST /patents/derwent/documents-by-listref
 
-Retrieve a document using listref obtained from the search request
+Retrieve document content using listref. The listref option enables efficient batch retrieval following a search. The listref obtained from the response header of the precious search is valid for only **72 hours**.
 
 **Request parameters:**
 
@@ -588,7 +590,7 @@ Retrieve a document using listref obtained from the search request
 
 ```bash
 curl -sS \
-  -X POST "httpS://api.clarivate.com/patents/derwent/documents-by-listref" \
+  -X POST "https://api.clarivate.com/patents/derwent/documents-by-listref" \
   -H "Content-Type: application/json" \
   -H "X-ApiKey: $(x-apikey)" \
   -d '{
@@ -666,100 +668,9 @@ curl -sS \
 
 ---
 
-### POST /patents/derwent/combined-search
-
-Perform a combined search using two or more query
-
-**Request parameters:**
-
-- query: string. Free-text search query. query\\query_number\\ with search_field=search_value
-
-- combination: string. String containing combination condition of queries. Example: "combination": "\\1 and \\2”
-
-- collections: string. collections\\number\\ → a string of collection or comma separated string of multiple collections
-
-**Sample request:**
-
-```bash
-curl -sS \
-  -X POST "httpS://api.clarivate.com/patents/derwent/combined-search" \
-  -H "Content-Type: application/json" \
-  -H "X-ApiKey: $(x-apikey)" \
-  -d '{
-    "params": [
-      {
-        "query1": "pac=IN",
-        "collections1": "usapps",
-        "query2": "pa=*Atl*",
-        "collections2": "usapps",
-        "query3": "pa=*US",
-        "collections3": "usapps",
-        "combination": "($1 AND $2 OR S3)"
-      }
-    ]
-  }'
-```
-
-**Sample response:**
-
-```json
-[
-  {
-    "duration": "5885",
-    "searched": 177324912,
-    "found": "28801,4683,216194,6578197",
-    "size": 30000
-  },
-  {
-    "id": "USRE50600E120250923",
-    "rank": 7
-  },
-  {
-    "id": "US12426505B220250923",
-    "rank": 4
-  },
-  {
-    "id": "US12426464B220250923",
-    "rank": 5
-  },
-  {
-    "id": "US12426451B220250923",
-    "rank": 4
-  },
-  {
-    "id": "US12426448B220250923",
-    "rank": 4
-  },
-  {
-    "id": "US12426437B220250923",
-    "rank": 2
-  },
-  {
-    "id": "US12426431B120250923",
-    "rank": 4
-  },
-  {
-    "id": "US12426407B220250923",
-    "rank": 10
-  },
-  {
-    "id": "US12426400B220250923",
-    "rank": 3
-  },
-  {
-    "id": "US12426375B220250923",
-    "rank": 5
-  }
-]
-```
-
-[⬆ Back to Top](#table-of-contents)
-
----
-
 ### POST /patents/derwent/class-browse
 
-Browse classification databases using class levels and hierarchies
+Browsing through classification databases across various levels and hierarchies to ensure comprehensive technical coverage.
 
 **Request parameters:**
 
@@ -773,7 +684,7 @@ Browse classification databases using class levels and hierarchies
 
 ```bash
 curl -sS \
-  -X POST "httpS://api.clarivate.com/patents/derwent/class-browse" \
+  -X POST "https://api.clarivate.com/patents/derwent/class-browse" \
   -H "Content-Type: application/json" \
   -H "X-ApiKey: $(x-apikey)" \
   -d '{
@@ -885,7 +796,7 @@ curl -sS \
 
 ### POST /patents/derwent/class-search
 
-Search classification databases using query and classification type
+Identify relevant classification codes using query and classification type parameters (e.g., ipc8).
 
 **Request parameters:**
 
@@ -897,7 +808,7 @@ Search classification databases using query and classification type
 
 ```bash
 curl -sS \
-  -X POST "httpS://api.clarivate.com/patents/derwent/class-search" \
+  -X POST "https://api.clarivate.com/patents/derwent/class-search" \
   -H "Content-Type: application/json" \
   -H "X-ApiKey: $(x-apikey)" \
   -d '{
@@ -944,7 +855,7 @@ curl -sS \
 
 ### POST /patents/derwent/corporate-tree
 
-Search corporate hierarchy for the assignees using code or terms
+Find where an assignee fit in the corporate hierarchy and look up entities within a corporate hierarchy by assignee code or name, supporting more precise assignee-based searches where an applicant operates under multiple related entities.
 
 **Request parameters:**
 
@@ -956,7 +867,7 @@ Search corporate hierarchy for the assignees using code or terms
 
 ```bash
 curl -sS \
-  -X POST "httpS://api.clarivate.com/patents/derwent/corporate-tree" \
+  -X POST "https://api.clarivate.com/patents/derwent/corporate-tree" \
   -H "Content-Type: application/json" \
   -H "X-ApiKey: $(x-apikey)" \
   -d '{
@@ -1003,34 +914,16 @@ curl -sS \
 
 ---
 
-## Pagination
-
-_TODO: Add content_
-
-[⬆ Back to Top](#table-of-contents)
-
----
-
-## Changelog
-
-_TODO: Add content_
-
-[⬆ Back to Top](#table-of-contents)
-
----
-
 ## Support
 
-_TODO: Add content_
-
-[⬆ Back to Top](#table-of-contents)
+Send [email](#mailto:Derwent.support@clarivate.com) to us if you have any questions.
 
 ---
 
-## License
+## Terms of service
 
-_TODO: Add content_
+[Terms of service](#https://clarivate.com/legal-center/terms-of-business/product-service-terms/)
 
-[⬆ Back to Top](#table-of-contents)
+<p align="center"><a href="#table-of-contents">⬆ Back to Top</a></p>
 
 ---
