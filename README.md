@@ -142,9 +142,9 @@ The API fields and collections are described in [Field List (Excel)](docs/New_De
 
 #### Fields
 All the fields are listed in the **FIELDS** tab, they have a few categories:
-- Search Request: The fields that can be requested (as parameters) in **Search** endpoints
-- Search Response: The fields that can be returend in **Search** endpoints
-- Document Response: The fields that can be returned in **Document** endpoints
+- **Search Request**: The fields that can be requested (as parameters) in **Search** endpoints
+- **Search Response**: The fields that can be returend in **Search** endpoints
+- **Document Response**: The fields that can be returned in **Document** endpoints
 
 #### Collections
 All the collections are listed in the **COLLECTIONS** tab.<br>
@@ -157,17 +157,43 @@ _TODO_ Refer to [Coverage and Collections (PDF)](#xxx) to understand the start d
 
 ### POST /patents/derwent/search-by-query
 
-AI (semantic) search and boolean search by fields. Results include a listref reference that can be used for subsequent document retrieval.
+AI (semantic) search and Boolean search by fields. Results include a listref reference that can be used for subsequent document retrieval.
 
 **Request parameters:**
 
 - query: string. Use search_field=search_value
 
+  - For AI search: The field name is "aisq", e.g. aisq=\"pizza delivery driverless that also takes payment\"
+  - For Boolean search: The search fields are **Search Request** category, see [Fields](#fields)
+
+  AI search and Boolean search can't be used at the same search request.
+
 - listref: string. String obtained from search response. Either query or listref can be used in this endpoint
 
 - collections: string. String containing one or more collections separated by comma(”,”)
 
+- return-listref: bool. True is the response return listref for this search result
+
 - return-fields: string. String containing one or more return-fields separated by comma(”,”)
+
+- size: integer. The maximum number of records returned for this search. The default maximum is 30000.
+
+- offset: integer. Return the records after this number. If you query result is large, you can specify the size and offset to only return the limited records
+
+**response**
+
+The response contains header and body if the search runs successfully.
+
+header: the summary of this search result
+
+- found: integer. The number of records this search found.
+- size: integer. The maximum number of records this search can return. It is smaller value between *found* and *size* parameter.
+
+body: the main content of this search result, 
+
+  - id: The patent document Id, wihch can be used in **Document** search
+  - rank: The relevancy ranking results. For AI search, it is between 0.0 (0%) to 1.0 (100%). For Boolean search, it is always 1.0
+  - field: The returned fields and their values, the fields are specified in *return-fields* parameter.
 
 **Sample request:**
 
