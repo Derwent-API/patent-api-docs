@@ -149,7 +149,7 @@ All the fields are listed in the **FIELDS** tab, they have a few categories:
 #### Collections
 All the collections are listed in the **COLLECTIONS** tab.<br>
 Each collection is for one specific authority and one specific patent type (application, grant, utility model)<br>
-_TODO_ Refer to [Coverage and Collections (PDF)](#xxx) to understand the start date and patent type for each authority<br>
+Refer to [Coverage and Collections (PDF)](docs/Derwent_API_DataFeed_Coverage.pdf) to check the start date and patent type for each authority<br>
 
 [⬆ Back to Top](#table-of-contents)
 
