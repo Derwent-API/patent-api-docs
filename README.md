@@ -172,7 +172,7 @@ AI (semantic) search and Boolean search by fields. Results include a listref ref
 
 - collections: string. String containing one or more collections separated by comma(”,”)
 
-- return-listref: bool. True is the response return listref for this search result
+- return-listref: bool. If true, then the response will return listref for this search result
 
 - return-fields: string. String containing one or more return-fields separated by comma(”,”)
 
@@ -180,7 +180,7 @@ AI (semantic) search and Boolean search by fields. Results include a listref ref
 
 - offset: integer. Return the records after this number. If you query result is large, you can specify the size and offset to only return the limited records
 
-**response**
+**Response**
 
 The response contains header and body if the search runs successfully.
 
@@ -202,7 +202,7 @@ curl -sS \
   -X 'POST' \
   'https://api.clarivate.com/patents/derwent/search-by-query' \
   -H 'accept: application/json' \
-  -H 'X-ApiKey: 5153bee8c2be6753176a1a190802beef7c377027' \
+  -H 'X-ApiKey: $(x-apikey)' \
   -H 'Content-Type: application/json' \
   -d '{
   "params": [
@@ -738,17 +738,113 @@ curl -sS \
 
 ### POST /patents/derwent/document/pdf
 
+Return PDF availability with direct DocDel URLs or wrapped URLs for one or more Derwent patents.
+
+**Request parameters:**
+
+- pns: string. String containing one or more publication numbers separated by comma(”,”)
+
+- wrap: bool. If true, then the PDF URL is wrapped
+
+**Sample request:**
+
+```bash
+curl -X 'POST' \
+  'https://api.clarivate.com/patents/derwent/document/pdf' \
+  -H 'accept: application/json' \
+  -H 'X-ApiKey: $(x-apikey)' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "params": [
+    {
+      "pns": "US20110094542A1,US12368967B2"
+    }
+  ],
+  "wrap": true
+}'
+```
+**Sample response:**
+
+```json
+{
+  "available": [
+    {
+      "pn": "US20110094542A1",
+      "url": "https://api.clarivate.com/patents/derwent/document/pdf/file?patent=US20110094542A1&token=($token)"
+    },
+    {
+      "pn": "US12368967B2",
+      "url": "https://api.clarivate.com/patents/derwent/document/pdf/file?patent=US12368967B2&token=($token)"
+    }
+  ],
+  "unavailable": []
+}
+```
+
 [⬆ Back to Top](#table-of-contents)
 
 ---
 
 ### GET /patents/derwent/document/pdf/\{document_guid\}
 
+Retrieves the original patent PDF by document ID (GUID), allowing users to access full patent documents directly.
+
+**Request parameters:**
+
+- document_guid: The patent document Id.
+
+**Sample request:**
+
+```bash
+curl -X 'GET' \
+  'https://api.clarivate.com/patents/derwent/document/pdf/DE102025002193B3' \
+  -H 'accept: */*' \
+  -H 'X-ApiKey: $(x-apikey)'
+```
+
+**Sample response:**
+
+The request will return PDF binary file directly, which can be rendered direclty in browser.
+
 [⬆ Back to Top](#table-of-contents)
 
 ---
 
 ### GET /patents/derwent/document/images/{document_guid}
+
+Retrieves patent images by document ID (GUID), useful for quickly reviewing drawings and diagrams of patents.
+
+**Request parameters:**
+
+- document_guid: string. The patent document Id.
+
+- size: integer. Expected image size in pixels, this is optional
+
+- wrap: bool. If true, then return IP API wrapper URLs; if false, then return direct CLIPS URLs. Default value is true
+
+**Sample request:**
+
+```bash
+curl -X 'GET' \
+  'https://api.clarivate.com/patents/derwent/document/images/DE102025002193B3' \
+  -H 'accept: application/json' \
+  -H 'X-ApiKey: $(x-apikey)'
+```
+
+**Sample response:**
+
+```json
+[
+  {
+    "image_urls": [
+      "https://api.clarivate.com/patents/derwent/document/images/file?patent=DE102025002193B3&page=1&fponly=0&size=380&format=gif&token=($token)",
+      "https://api.clarivate.com/patents/derwent/document/images/file?patent=DE102025002193B3&page=2&fponly=0&size=380&format=gif&token=($token)",
+      "https://api.clarivate.com/patents/derwent/document/images/file?patent=DE102025002193B3&page=3&fponly=0&size=380&format=gif&token=($token)",
+      "https://api.clarivate.com/patents/derwent/document/images/file?patent=DE102025002193B3&page=4&fponly=0&size=380&format=gif&token=($token)"
+    ]
+  }
+]
+```
 
 [⬆ Back to Top](#table-of-contents)
 
