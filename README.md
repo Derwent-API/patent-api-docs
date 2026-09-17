@@ -37,13 +37,13 @@ Derwent Patent API provides seamless access to enriched patent data, enabling us
 
 ### Register Developer Portal
 
-1. Go to <a href="https://developer.clarivate.com/" target="_blank">Clarivate Developer Portal (new tab)</a> and select **Sign up** to open a new page page
+1. Go to <a href="https://developer.clarivate.com/" target="_blank">Clarivate Developer Portal ↗</a> and select **Sign up** to open a new page page
 2. Click **Register** to open the register page, following the instruction to input your ***email address***, ***password*** and other information, then click **Register**
 3. You will receiven an email, follow the instruction to confirm the registration
 
 ### Register Application
 
-1. Go to <a href="https://developer.clarivate.com/" target="_blank">Clarivate Developer Portal</a> and select **Log in** to open a new page
+1. Go to <a href="https://developer.clarivate.com/" target="_blank">Clarivate Developer Portal ↗</a> and select **Log in** to open a new page
 2. Input your email address and password, and click **Sign in** to your personal home page
 3. Click **Applications** in the menu to open the appication page
 4. Click **Register a new Application** to show the panel, input the required fields (You can input a few words and update it later), click **Register Application**
@@ -149,7 +149,7 @@ All the fields are listed in the **FIELDS** tab, they have a few categories:
 #### Collections
 All the collections are listed in the **COLLECTIONS** tab.<br>
 Each collection is for one specific authority and one specific patent type (application, grant, utility model)<br>
-Refer to <a href="docs/Derwent_API_DataFeed_Coverage.pdf" target="_blank">Coverage and Collections (PDF)</a> to check the start date and patent type for each authority<br>
+Refer to <a href="docs/Derwent_API_DataFeed_Coverage.pdf" target="_blank">Coverage and Collections (PDF) ↗</a> to check the start date and patent type for each authority<br>
 
 [⬆ Back to Top](#table-of-contents)
 
