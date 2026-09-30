@@ -6,15 +6,15 @@
 <title>Doc Contribution Workflow</title>
 <style>
   :root{
-    --bg:#12151a;
-    --panel:#1a1f27;
-    --line:#2c333e;
-    --text:#e9ecf1;
-    --muted:#8b93a3;
-    --branch:#5ee6c8;
-    --gate:#f5a962;
-    --merge:#7c9eff;
-    --danger:#ff6b6b;
+    --bg:#ffffff;
+    --panel:#ffffff;
+    --line:#e6e9ee;
+    --text:#1b2130;
+    --muted:#65708a;
+    --branch:#0d8f7c;
+    --gate:#c2710f;
+    --merge:#3757d6;
+    --danger:#d0453a;
     --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
     box-sizing:border-box;
     padding-top:env(safe-area-inset-top,0px);
@@ -25,8 +25,8 @@
   body{
     margin:0;
     background:
-      radial-gradient(ellipse at 20% -10%, #1e2836 0%, transparent 55%),
-      radial-gradient(ellipse at 90% 10%, #241c30 0%, transparent 50%),
+      radial-gradient(ellipse at 20% -10%, #f4faf8 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 10%, #f5f6fd 0%, transparent 45%),
       var(--bg);
     color:var(--text);
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
@@ -35,18 +35,19 @@
   .wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px;}
 
   header{margin-bottom:56px;}
-  .kicker{
-    font-family:var(--mono);
-    font-size:13px;
-    color:var(--branch);
-    margin:0 0 10px;
-  }
   h1{
-    font-size:clamp(30px,6vw,44px);
-    line-height:1.08;
-    margin:0 0 14px;
+    font-size:clamp(28px,5.2vw,38px);
+    line-height:1.1;
+    margin:0 0 10px;
     letter-spacing:-0.02em;
     font-weight:700;
+  }
+  .tagline{
+    font-family:var(--mono);
+    font-size:15px;
+    color:var(--branch);
+    margin:0 0 14px;
+    font-weight:600;
   }
   .sub{color:var(--muted);font-size:16px;line-height:1.6;max-width:56ch;margin:0;}
 
@@ -95,13 +96,20 @@
     font-family:var(--mono);
     font-size:12.5px;
     color:var(--branch);
-    background:#0e1116;
+    background:#eef1f5;
     border:1px solid var(--line);
     padding:4px 9px;
     border-radius:6px;
   }
   .step.gate .cmd{color:var(--gate);}
   .step.merge .cmd{color:var(--merge);}
+  .cmd em{
+    font-style:normal;
+    color:var(--merge);
+    background:rgba(55,87,214,.12);
+    padding:0 3px;
+    border-radius:3px;
+  }
 
   .tag{
     display:inline-block;
@@ -111,7 +119,7 @@
     border-radius:5px;
     margin-left:8px;
     vertical-align:middle;
-    background:rgba(255,255,255,.06);
+    background:#eef1f5;
     color:var(--muted);
   }
 
@@ -138,8 +146,8 @@
 <div class="wrap">
 
   <header>
-    <p class="kicker">// doc-repo contribution flow</p>
-    <h1>Edit it. Commit it. Done.</h1>
+    <h1>Doc Contribution Workflow</h1>
+    <p class="tagline">Edit it. Commit it. Done.</p>
     <p class="sub">The path every README edit takes from your browser to the live docs site &mdash; no branches to manage, no install required.</p>
   </header>
 
@@ -150,8 +158,9 @@
       <div class="node">1</div>
       <div class="card">
         <h3>Open &amp; edit</h3>
-        <p>Press <b>.</b> on the repo page (or go to github.dev) and make your changes directly.</p>
-        <span class="cmd">github.com/org/repo → .</span>
+        <p>Press <b>.</b> on the repo page, or type the repo's vscode.dev URL directly &mdash; either way opens the same editor.</p>
+        <span class="cmd">github.com/<em>org</em>/<em>repo</em> → .</span>
+        <span class="cmd">vscode.dev/github/<em>org</em>/<em>repo</em></span>
       </div>
     </div>
 
@@ -183,7 +192,7 @@
   <div class="principles">
     <h2>PRINCIPLES</h2>
     <div class="grid">
-      <div class="tile"><span class="glyph">💾</span><h4>Commit often</h4><p>Unsaved edits live only in your browser &mdash; don't sit on changes too long.</p></div>
+      <div class="tile"><span class="glyph">💾</span><h4>Commit often</h4><p>Unsaved edits live only in your browser's local storage &mdash; not on GitHub, not on disk. A restart <i>should</i> keep them, but clearing the browser or switching machines will lose them. Commit as soon as you can.</p></div>
       <div class="tile"><span class="glyph">🎯</span><h4>One topic per commit</h4><p>Small, focused changes are easier for the admin to review.</p></div>
       <div class="tile"><span class="glyph">🔒</span><h4>No secrets, ever</h4><p>This repo is public &mdash; never commit keys, tokens, or .env files.</p></div>
       <div class="tile"><span class="glyph">🔔</span><h4>Watch the repo</h4><p>Turn on Watch → All Activity to know when main changes.</p></div>
