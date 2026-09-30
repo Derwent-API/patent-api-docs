@@ -163,7 +163,7 @@ AI (semantic) search and Boolean search by fields. Results include a listref ref
 
 - query: string. Use search_field=search_value
 
-  - For AI search: The field name is "aisq", e.g. aisq=\"pizza delivery driverless that also takes payment\"
+  - For AI search: The field name is "aisq", e.g. AIQuery = "(aisq=\\"pizza delivery driverless that also takes payment\\")"
   - For Boolean search: The search fields are **Search Request** category, see [Fields](#fields)
 
   AI search and Boolean search can't be used at the same search request.
