@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Doc Contribution Workflow</title>
+<style>
+  :root{
+    --bg:#12151a;
+    --panel:#1a1f27;
+    --line:#2c333e;
+    --text:#e9ecf1;
+    --muted:#8b93a3;
+    --branch:#5ee6c8;
+    --gate:#f5a962;
+    --merge:#7c9eff;
+    --danger:#ff6b6b;
+    --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:inherit;}
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at 20% -10%, #1e2836 0%, transparent 55%),
+      radial-gradient(ellipse at 90% 10%, #241c30 0%, transparent 50%),
+      var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px;}
+
+  header{margin-bottom:56px;}
+  .kicker{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--branch);
+    margin:0 0 10px;
+  }
+  h1{
+    font-size:clamp(30px,6vw,44px);
+    line-height:1.08;
+    margin:0 0 14px;
+    letter-spacing:-0.02em;
+    font-weight:700;
+  }
+  .sub{color:var(--muted);font-size:16px;line-height:1.6;max-width:56ch;margin:0;}
+
+  /* pipeline */
+  .pipeline{position:relative;margin:0 0 64px;}
+  .rail{
+    position:absolute;
+    left:23px;
+    top:6px;
+    bottom:6px;
+    width:2px;
+    background:linear-gradient(var(--branch),var(--gate) 55%,var(--merge) 85%,var(--danger));
+    opacity:.5;
+  }
+  .step{
+    position:relative;
+    display:grid;
+    grid-template-columns:48px 1fr;
+    gap:20px;
+    padding:0 0 34px;
+  }
+  .step:last-child{padding-bottom:0;}
+  .node{
+    width:48px;height:48px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-weight:700;font-size:15px;
+    border:2px solid var(--line);
+    background:var(--panel);
+    z-index:1;
+  }
+  .step.branch .node{border-color:var(--branch);color:var(--branch);}
+  .step.gate .node{border-color:var(--gate);color:var(--gate);}
+  .step.merge .node{border-color:var(--merge);color:var(--merge);}
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+  }
+  .card h3{margin:0 0 6px;font-size:16px;font-weight:650;}
+  .card p{margin:0;color:var(--muted);font-size:14px;line-height:1.55;}
+  .cmd{
+    display:inline-block;
+    margin-top:10px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--branch);
+    background:#0e1116;
+    border:1px solid var(--line);
+    padding:4px 9px;
+    border-radius:6px;
+  }
+  .step.gate .cmd{color:var(--gate);}
+  .step.merge .cmd{color:var(--merge);}
+
+  .tag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:11px;
+    padding:2px 7px;
+    border-radius:5px;
+    margin-left:8px;
+    vertical-align:middle;
+    background:rgba(255,255,255,.06);
+    color:var(--muted);
+  }
+
+  /* principles */
+  .principles{margin-bottom:8px;}
+  .principles h2{font-size:14px;font-family:var(--mono);color:var(--muted);margin:0 0 18px;letter-spacing:.02em;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media (max-width:520px){.grid{grid-template-columns:1fr;}}
+  .tile{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:15px 16px;
+  }
+  .tile .glyph{font-size:18px;margin-bottom:8px;display:block;}
+  .tile h4{margin:0 0 4px;font-size:14px;font-weight:650;}
+  .tile p{margin:0;color:var(--muted);font-size:13px;line-height:1.5;}
+
+  footer{margin-top:56px;color:var(--muted);font-size:12.5px;font-family:var(--mono);}
+  footer a{color:var(--branch);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="kicker">// doc-repo contribution flow</p>
+    <h1>Edit it. Commit it. Done.</h1>
+    <p class="sub">The path every README edit takes from your browser to the live docs site &mdash; no branches to manage, no install required.</p>
+  </header>
+
+  <div class="pipeline">
+    <div class="rail"></div>
+
+    <div class="step branch">
+      <div class="node">1</div>
+      <div class="card">
+        <h3>Open &amp; edit</h3>
+        <p>Press <b>.</b> on the repo page (or go to github.dev) and make your changes directly.</p>
+        <span class="cmd">github.com/org/repo → .</span>
+      </div>
+    </div>
+
+    <div class="step gate">
+      <div class="node">2</div>
+      <div class="card">
+        <h3>Commit<span class="tag">auto branch + PR</span></h3>
+        <p>Main is protected, so committing prompts you to "Create a new branch and start a pull request." Just confirm &mdash; GitHub handles the rest.</p>
+      </div>
+    </div>
+
+    <div class="step gate">
+      <div class="node">3</div>
+      <div class="card">
+        <h3>Wait for review</h3>
+        <p>An admin checks your change (including the live preview) and approves, or leaves a comment if something needs fixing.</p>
+      </div>
+    </div>
+
+    <div class="step merge">
+      <div class="node">4</div>
+      <div class="card">
+        <h3>Merged &amp; live</h3>
+        <p>Once approved, it's merged and the site updates automatically. Nothing else for you to do.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="principles">
+    <h2>PRINCIPLES</h2>
+    <div class="grid">
+      <div class="tile"><span class="glyph">💾</span><h4>Commit often</h4><p>Unsaved edits live only in your browser &mdash; don't sit on changes too long.</p></div>
+      <div class="tile"><span class="glyph">🎯</span><h4>One topic per commit</h4><p>Small, focused changes are easier for the admin to review.</p></div>
+      <div class="tile"><span class="glyph">🔒</span><h4>No secrets, ever</h4><p>This repo is public &mdash; never commit keys, tokens, or .env files.</p></div>
+      <div class="tile"><span class="glyph">🔔</span><h4>Watch the repo</h4><p>Turn on Watch → All Activity to know when main changes.</p></div>
+    </div>
+  </div>
+
+  <footer>main is protected &middot; direct pushes are blocked &middot; every change is reviewed</footer>
+</div>
+</body>
+</html>
