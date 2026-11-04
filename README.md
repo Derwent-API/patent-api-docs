@@ -1110,7 +1110,7 @@ Send [Email](mailto:Derwent.support@clarivate.com) to us if you have any feedbac
 
 ## Terms of service
 
-[Terms of service](https://clarivate.com/legal-center/terms-of-business/product-service-terms/)
+Visit Clarivate <a href="https://clarivate.com/legal-center/terms-of-business/product-service-terms/" target="_blank">Terms of service ↗</a>
 
 <p align="center"><a href="#table-of-contents">⬆ Back to Top</a></p>
 
